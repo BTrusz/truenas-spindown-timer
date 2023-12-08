@@ -299,7 +299,8 @@ function detect_drives_zpool() {
 
         # Remove ignored pools
         for ignored_pool in $IGNORED_DRIVES; do
-            poolnames=${poolnames//$ignored_pool/}
+#            poolnames=${poolnames//$ignored_pool/}
+            poolnames=$(sed "s/\b$ignored_pool\b//g" <<< "$poolnames")    #BT don't clobber matching substrings, only match whole word
             log_verbose "Ignoring zfs pool: $ignored_pool"
         done
 
